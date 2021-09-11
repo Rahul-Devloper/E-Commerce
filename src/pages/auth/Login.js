@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 // import { getAuth, sendSignInLinkToEmail } from "firebase/auth";
 import { auth, googleAuthProvider } from "../../firebase";
 import { toast } from "react-toastify";
@@ -9,7 +9,7 @@ import {
   MailOutlined,
   UserAddOutlined,
 } from "@ant-design/icons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 //component start
 const Login = ({ history }) => {
@@ -18,6 +18,13 @@ const Login = ({ history }) => {
   const [password, setPassword] = useState("rahulramesh");
   const [loading, setLoading] = useState(false);
   let dispatch = useDispatch();
+  const { user } = useSelector((state) => ({ ...state }));
+
+  useEffect(() => {
+    if (user && user.token) {
+      history.push("/");
+    }
+  }, [user]);
 
   //event handlers
   const handleSubmit = async (e) => {
